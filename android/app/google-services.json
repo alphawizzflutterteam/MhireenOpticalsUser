@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "396652539168",
+    "project_id": "mahireenopticals",
+    "storage_bucket": "mahireenopticals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396652539168:android:e71be9b93897d2f155bb45",
+        "android_client_info": {
+          "package_name": "com.mahireenopticals.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqZzI0C2XS00puUXCnyalVbXQHh8Zq0gQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
