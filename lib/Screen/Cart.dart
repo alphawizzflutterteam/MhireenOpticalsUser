@@ -6495,162 +6495,164 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                             ))),
                   ),
                   Container(
-                    child: Column(mainAxisSize: MainAxisSize.min, children: <
-                        Widget>[
-                      promoList.length > 0 && oriPrice > 0
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: InkWell(
-                                child: Stack(
-                                  alignment: Alignment.centerRight,
-                                  children: [
-                                    Container(
-                                        margin:
-                                            const EdgeInsetsDirectional.only(
-                                                end: 20),
-                                        decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .white,
-                                            borderRadius:
-                                                BorderRadiusDirectional
-                                                    .circular(10)),
-                                        child: TextField(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          promoList.length > 0 && oriPrice > 0
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: InkWell(
+                                    child: Stack(
+                                      alignment: Alignment.centerRight,
+                                      children: [
+                                        Container(
+                                            margin: const EdgeInsetsDirectional
+                                                .only(end: 20),
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .white,
+                                                borderRadius:
+                                                    BorderRadiusDirectional
+                                                        .circular(10)),
+                                            child: TextField(
+                                              textDirection:
+                                                  Directionality.of(context),
+                                              enabled: false,
+                                              controller: promoC,
+                                              readOnly: true,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2,
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                border: InputBorder.none,
+                                                //isDense: true,
+                                                hintText: getTranslated(context,
+                                                        'PROMOCODE_LBL') ??
+                                                    '',
+                                              ),
+                                            )),
+                                        Positioned.directional(
                                           textDirection:
                                               Directionality.of(context),
-                                          enabled: false,
-                                          controller: promoC,
-                                          readOnly: true,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle2,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                            border: InputBorder.none,
-                                            //isDense: true,
-                                            hintText: getTranslated(
-                                                    context, 'PROMOCODE_LBL') ??
-                                                '',
-                                          ),
-                                        )),
-                                    Positioned.directional(
-                                      textDirection: Directionality.of(context),
-                                      end: 0,
-                                      child: Container(
-                                          padding: EdgeInsets.all(11),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .lightBlack,
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_forward,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .white,
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                                onTap: promoSheet,
-                              ),
-                            )
-                          : Container(),
-                      Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                          //  width: deviceWidth! * 0.9,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(getTranslated(context, 'TOTAL_PRICE')!),
-                                  Text(
-                                    CUR_CURRENCY! +
-                                        " ${oriPrice.toStringAsFixed(2)}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1!
-                                        .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .fontColor),
-                                  ),
-                                ],
-                              ),
-                              isPromoValid!
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          getTranslated(
-                                              context, 'PROMO_CODE_DIS_LBL')!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption!
-                                              .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .lightBlack2),
+                                          end: 0,
+                                          child: Container(
+                                              padding: EdgeInsets.all(11),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .lightBlack,
+                                              ),
+                                              child: Icon(
+                                                Icons.arrow_forward,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .white,
+                                              )),
                                         ),
-                                        Text(
-                                          CUR_CURRENCY! +
-                                              " " +
-                                              promoAmt.toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption!
-                                              .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .lightBlack2),
-                                        )
                                       ],
-                                    )
-                                  : Container(),
-                            ],
-                          )),
-                      SimBtn(
-                          size: 0.9,
-                          title: getTranslated(context, 'PROCEED_CHECKOUT'),
-                          onBtnSelected: () async {
-                            _getCart("");
-                            checkout(cartList);
-                            // if(isOnOff == true){
-                            //   if (oriPrice > 0) {
-                            //     FocusScope.of(context).unfocus();
-                            //     if (isAvailable) {
-                            //       checkout(cartList);
-                            //     } else {
-                            //       setSnackbar(
-                            //           getTranslated(
-                            //               context, 'CART_OUT_OF_STOCK_MSG')!,
-                            //           _scaffoldKey);
-                            //     }
-                            //     if (mounted) setState(() {});
-                            //   } else
-                            //     setSnackbar(getTranslated(context, 'ADD_ITEM')!,
-                            //         _scaffoldKey);
-                            // } else {
-                            //   showToast("Currently Store is Off");
-                            // }
-                          }),
-                    ]),
+                                    ),
+                                    onTap: promoSheet,
+                                  ),
+                                )
+                              : Container(),
+                          Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 5),
+                              //  width: deviceWidth! * 0.9,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(getTranslated(
+                                          context, 'TOTAL_PRICE')!),
+                                      Text(
+                                        CUR_CURRENCY! +
+                                            " ${oriPrice.toStringAsFixed(2)}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .fontColor),
+                                      ),
+                                    ],
+                                  ),
+                                  isPromoValid!
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              getTranslated(context,
+                                                  'PROMO_CODE_DIS_LBL')!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .lightBlack2),
+                                            ),
+                                            Text(
+                                              CUR_CURRENCY! +
+                                                  " " +
+                                                  promoAmt.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .lightBlack2),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                ],
+                              )),
+                          SimBtn(
+                              size: 0.9,
+                              title: getTranslated(context, 'PROCEED_CHECKOUT'),
+                              onBtnSelected: () async {
+                                _getCart("");
+                                checkout(cartList);
+                                // if(isOnOff == true){
+                                //   if (oriPrice > 0) {
+                                //     FocusScope.of(context).unfocus();
+                                //     if (isAvailable) {
+                                //       checkout(cartList);
+                                //     } else {
+                                //       setSnackbar(
+                                //           getTranslated(
+                                //               context, 'CART_OUT_OF_STOCK_MSG')!,
+                                //           _scaffoldKey);
+                                //     }
+                                //     if (mounted) setState(() {});
+                                //   } else
+                                //     setSnackbar(getTranslated(context, 'ADD_ITEM')!,
+                                //         _scaffoldKey);
+                                // } else {
+                                //   showToast("Currently Store is Off");
+                                // }
+                              }),
+                        ]),
                   ),
                 ],
               );
@@ -7109,38 +7111,6 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
     if (mounted) checkoutState!(() {});
   }
 
-  // razorpayPayment() async {
-  //   SettingProvider settingsProvider =
-  //   Provider.of<SettingProvider>(this.context, listen: false);
-  //
-  //   String? contact = settingsProvider.mobile;
-  //   String? email = settingsProvider.email;
-  //
-  //   String amt = ((totalPrice) * 100).toStringAsFixed(2);
-  //
-  //   if (contact != '' && email != '') {
-  //     context.read<CartProvider>().setProgress(true);
-  //
-  //     checkoutState!(() {});
-  //     var options = {
-  //       KEY: razorpayId,
-  //       AMOUNT: amt,
-  //       NAME: settingsProvider.userName,
-  //       'prefill': {CONTACT: contact, EMAIL: email},
-  //     };
-  //
-  //     try {
-  //       _razorpay!.open(options);
-  //     } catch (e) {
-  //       debugPrint(e.toString());
-  //     }
-  //   } else {
-  //     if (email == '')
-  //       setSnackbar(getTranslated(context, 'emailWarning')!, _checkscaffoldKey);
-  //     else if (contact == '')
-  //       setSnackbar(getTranslated(context, 'phoneWarning')!, _checkscaffoldKey);
-  //   }
-  // }
   razorpayPayment() async {
     SettingProvider settingsProvider =
         Provider.of<SettingProvider>(this.context, listen: false);
@@ -7158,7 +7128,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
 
       checkoutState!(() {});
       var options = {
-        'key': 'rzp_test_1DP5mmOlF5G5ag',
+        'key': 'rzp_live_GsfWpYHT5UlWXc',
         'amount': "$amt",
         'name': 'Place Order',
         'prefill': {CONTACT: contact},

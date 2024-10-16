@@ -1558,11 +1558,16 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
   }
 
   final whatsapppBoxKey = GlobalKey();
-  openwhatsapp({required String Number, required String pid,required String name,}) async {
-    var file="https://developmentalphawizz.com/mahireen_opticals/uploads/seller/glasses_logo.png";
+  openwhatsapp({
+    required String Number,
+    required String pid,
+    required String name,
+  }) async {
+    var file = "https://mahireenopticals.in/uploads/seller/glasses_logo.png";
     print(Number);
     var whatsappURl_android = "whatsapp://send?phone=" +
-        Number +"&file=$file"+
+        Number +
+        "&file=$file" +
         "&text=Hi Mahireen Opticals, help me get started! I am on product page of android app,\nI need help with product \nName: $name\nID: ${pid}";
     if (await canLaunch(whatsappURl_android)) {
       try {
@@ -2041,7 +2046,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                       // }
 
                       openwhatsapp(
-                        name: "${widget.model?.name ?? ""}",
+                          name: "${widget.model?.name ?? ""}",
                           Number: "+91${widget.model?.whatsapp_no ?? ""}",
                           pid: "${widget.model?.id ?? ""}");
                     },

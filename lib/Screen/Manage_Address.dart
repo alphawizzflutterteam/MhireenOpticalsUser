@@ -311,10 +311,8 @@ class StateAddress extends State<ManageAddress> with TickerProviderStateMixin {
     var headers = {
       'Cookie': 'ci_session=efd8f22f6ac85dd71a7e754f63eec29255353fed'
     };
-    var request = MultipartRequest(
-        'POST',
-        Uri.parse(
-            'https://developmentalphawizz.com/farmbuz/app/v1/api/select_address'));
+    var request = MultipartRequest('POST',
+        Uri.parse('https://mahireenopticals.in/app/v1/api/select_address'));
     request.fields.addAll({'address_id': id});
 
     request.headers.addAll(headers);
