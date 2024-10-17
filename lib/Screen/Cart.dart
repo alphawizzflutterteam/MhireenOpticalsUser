@@ -4149,6 +4149,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mahireenopticals/Helper/Constant.dart';
+import 'package:mahireenopticals/Helper/EyePriscriptionForm.dart';
 import 'package:mahireenopticals/Helper/Public%20Api/api.dart';
 import 'package:mahireenopticals/Helper/Session.dart';
 import 'package:mahireenopticals/Helper/widgets.dart';
@@ -6631,8 +6632,16 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                               size: 0.9,
                               title: getTranslated(context, 'PROCEED_CHECKOUT'),
                               onBtnSelected: () async {
-                                _getCart("");
-                                checkout(cartList);
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return EyePrescriptionForm();
+                                  },
+                                );
+
+                                // _getCart("");
+                                // checkout(cartList);
                                 // if(isOnOff == true){
                                 //   if (oriPrice > 0) {
                                 //     FocusScope.of(context).unfocus();

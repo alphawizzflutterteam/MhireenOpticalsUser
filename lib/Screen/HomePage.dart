@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:mahireenopticals/Helper/ApiBaseHelper.dart';
 import 'package:mahireenopticals/Helper/AppBtn.dart';
@@ -109,8 +108,8 @@ class _HomePageState extends State<HomePage>
                     _deliverPincode(),
                     _catList(),
                     _slider(),
-                     _section(),
-                    _seller()
+                    _section(),
+                    // _seller()
                   ],
                 ),
               ),
@@ -389,8 +388,8 @@ class _HomePageState extends State<HomePage>
 
     return sectionList[i].style == DEFAULT
         ? Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 15),
-          child: GridView.count(
+            padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 15),
+            child: GridView.count(
               // mainAxisSpacing: 12,
               // crossAxisSpacing: 12,
               padding: EdgeInsetsDirectional.only(top: 5),
@@ -417,21 +416,25 @@ class _HomePageState extends State<HomePage>
                   //   height: 50,
                   //   color: Colors.red,
                   // );
-          
-                  return Container( decoration: BoxDecoration(
-                    color: Colors.white,borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade300,
-                        offset: Offset(2, 2),
-                        blurRadius: 5,
+
+                  return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            offset: Offset(2, 2),
+                            blurRadius: 5,
+                          ),
+                        ],
                       ),
-                    ],
-                  ) ,child: productItem(i, index, index % 2 == 0 ? true : false));
+                      child:
+                          productItem(i, index, index % 2 == 0 ? true : false));
                 },
               ),
             ),
-        )
+          )
         : sectionList[i].style == STYLE1
             ? sectionList[i].productList!.length > 0
                 ? Padding(
@@ -443,7 +446,8 @@ class _HomePageState extends State<HomePage>
                           fit: FlexFit.loose,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.shade300,
@@ -469,21 +473,25 @@ class _HomePageState extends State<HomePage>
                                 height: orient == Orientation.portrait
                                     ? deviceHeight! * 0.2
                                     : deviceHeight! * 0.5,
-                                child: Container(decoration: BoxDecoration(
-                                  color: Colors.white,borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.shade300,
-                                      offset: Offset(2, 2),
-                                      blurRadius: 5,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade300,
+                                          offset: Offset(2, 2),
+                                          blurRadius: 5,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ) ,child: productItem(i, 1, false)),
+                                    child: productItem(i, 1, false)),
                               ),
                               const SizedBox(height: 10),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.shade300,
@@ -517,7 +525,8 @@ class _HomePageState extends State<HomePage>
                             children: [
                               Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.shade300,
@@ -532,7 +541,8 @@ class _HomePageState extends State<HomePage>
                                   child: productItem(i, 0, true)),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.shade300,
@@ -578,16 +588,18 @@ class _HomePageState extends State<HomePage>
                                 child: productItem(i, 0, false),
                               ),
                             ),
-                            Container( decoration: BoxDecoration(
-                              color: Colors.white,borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: Offset(2, 2),
-                                  blurRadius: 5,
-                                ),
-                              ],
-                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    offset: Offset(2, 2),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
                               height: orient == Orientation.portrait
                                   ? deviceHeight! * 0.2
                                   : deviceHeight! * 0.5,
@@ -623,30 +635,35 @@ class _HomePageState extends State<HomePage>
                                 Flexible(
                                     flex: 1,
                                     fit: FlexFit.loose,
-                                    child: Container( decoration: BoxDecoration(
-                                      color: Colors.white,borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade300,
-                                          offset: Offset(2, 2),
-                                          blurRadius: 5,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade300,
+                                              offset: Offset(2, 2),
+                                              blurRadius: 5,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
                                         height: orient == Orientation.portrait
                                             ? deviceHeight! * 0.25
                                             : deviceHeight! * 0.5,
                                         child: productItem(i, 0, false))),
-                                Container( decoration: BoxDecoration(
-                                  color: Colors.white,borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.shade300,
-                                      offset: Offset(2, 2),
-                                      blurRadius: 5,
-                                    ),
-                                  ],
-                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        offset: Offset(2, 2),
+                                        blurRadius: 5,
+                                      ),
+                                    ],
+                                  ),
                                   height: orient == Orientation.portrait
                                       ? deviceHeight! * 0.2
                                       : deviceHeight! * 0.5,
@@ -673,7 +690,6 @@ class _HomePageState extends State<HomePage>
                             child: GridView.count(
                               padding: EdgeInsetsDirectional.only(top: 5),
                               crossAxisCount: 2,
-
                               shrinkWrap: true,
                               childAspectRatio: 1.2,
                               physics: NeverScrollableScrollPhysics(),
@@ -686,7 +702,8 @@ class _HomePageState extends State<HomePage>
                                 (index) {
                                   return Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.shade300,
@@ -695,16 +712,14 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ],
                                     ),
-                                    child: productItem(
-                                        i, index, index % 2 == 0 ? true : false),
+                                    child: productItem(i, index,
+                                        index % 2 == 0 ? true : false),
                                   );
                                 },
                               ),
                             ),
                           );
   }
-
-
 
   Widget productItem(int secPos, int index, bool pad) {
     if (sectionList[secPos].productList!.length > index) {
@@ -793,7 +808,7 @@ class _HomePageState extends State<HomePage>
               child: Text(
                 sectionList[secPos].productList![index].name!,
                 style: Theme.of(context).textTheme.caption!.copyWith(
-                  fontSize: 14,
+                    fontSize: 14,
                     color: Theme.of(context).colorScheme.lightBlack),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -829,14 +844,11 @@ class _HomePageState extends State<HomePage>
                                       .prVarientList![0]
                                       .price!
                               : "",
-                          style: Theme.of(context)
-                              .textTheme
-                              .overline!
-                              .copyWith(
-                                  decoration: TextDecoration.lineThrough,
-                                  letterSpacing: 0,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.overline!.copyWith(
+                              decoration: TextDecoration.lineThrough,
+                              letterSpacing: 0,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
                         ),
                         Flexible(
                           child: Text(
@@ -918,7 +930,7 @@ class _HomePageState extends State<HomePage>
                     child: catLoading()))
             : Container(
                 height: 105,
-                padding: const EdgeInsets.only(top: 10, left: 10,bottom: 5),
+                padding: const EdgeInsets.only(top: 10, left: 10, bottom: 5),
                 child: ListView.builder(
                   itemCount: catList.length < 10 ? catList.length : 10,
                   scrollDirection: Axis.horizontal,
@@ -1049,9 +1061,9 @@ class _HomePageState extends State<HomePage>
       await getSetting();
 
       // await getCat();
-       getSeller();
-       getSection();
-       getOfferImages();
+      getSeller();
+      getSection();
+      getOfferImages();
     } else {
       if (mounted)
         setState(() {
@@ -1158,8 +1170,9 @@ class _HomePageState extends State<HomePage>
       context.read<HomeProvider>().setSecLoading(false);
     });
   }
-String? pincode ;
-  Future<void> getSetting() async{
+
+  String? pincode;
+  Future<void> getSetting() async {
     CUR_USERID = context.read<SettingProvider>().userId;
     //print("")
     Map parameter = Map();
@@ -1196,14 +1209,12 @@ String? pincode ;
         if (CUR_USERID != null) {
           REFER_CODE = getdata['data']['user_data'][0]['referral_code'];
 
-          pincode = getdata["data"]["user_data"][0][PINCODE] ;
-
+          pincode = getdata["data"]["user_data"][0][PINCODE];
 
           context
               .read<UserProvider>()
               .setPincode(getdata["data"]["user_data"][0][PINCODE]);
           await getCat().then((value) => getSlider());
-
 
           if (REFER_CODE == null || REFER_CODE == '' || REFER_CODE!.isEmpty)
             generateReferral();
@@ -1272,7 +1283,7 @@ String? pincode ;
           var data = getdata["data"];
 
           List<SectionModel> cartList = (data as List)
-              .map((data) =>  SectionModel.fromCart(data))
+              .map((data) => SectionModel.fromCart(data))
               .toList();
           context.read<CartProvider>().setCartlist(cartList);
         }
@@ -1626,7 +1637,7 @@ String? pincode ;
                                   context
                                       .read<UserProvider>()
                                       .setPincode(value!);
-                                  pincode = value ;
+                                  pincode = value;
                                 },
                                 style: Theme.of(context)
                                     .textTheme
@@ -1717,14 +1728,14 @@ String? pincode ;
     } on TickerCanceled {}
   }
 
-  Future<void> getSlider() async{
-   // Map map = Map();
+  Future<void> getSlider() async {
+    // Map map = Map();
 
     // var parms = {
     //   'pincode': pincode
     // };
     // print("my param${parms}");
-    apiBaseHelper.postAPICall(getSliderApi,{}).then((val) {
+    apiBaseHelper.postAPICall(getSliderApi, {}).then((val) {
       bool error = val["error"];
       String? msg = val["message"];
       if (!error) {
@@ -1750,11 +1761,8 @@ String? pincode ;
     });
   }
 
-  Future<void> getCat() async{
-    Map parameter = {
-      CAT_FILTER: "true",
-      'pincode':pincode
-    };
+  Future<void> getCat() async {
+    Map parameter = {CAT_FILTER: "true", 'pincode': pincode};
     print("object: $parameter");
     apiBaseHelper.postAPICall(getCatApi, parameter).then((getdata) {
       bool error = getdata["error"];
@@ -1861,7 +1869,7 @@ String? pincode ;
         ZIPCODE: pin,
       };
       SettingProvider settingsProvider =
-      Provider.of<SettingProvider>(context, listen: false);
+          Provider.of<SettingProvider>(context, listen: false);
 
       settingsProvider.setPrefrence("ZIPCODE", pin);
     }

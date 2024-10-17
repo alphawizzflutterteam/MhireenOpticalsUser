@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mahireenopticals/Provider/CartProvider.dart';
 import 'package:mahireenopticals/Provider/FavoriteProvider.dart';
 import 'package:mahireenopticals/Provider/HomeProvider.dart';
-import 'package:mahireenopticals/Provider/ProductDetailProvider.dart';
 import 'package:mahireenopticals/Provider/UserProvider.dart';
 import 'package:mahireenopticals/Screen/Cart.dart';
-import 'package:mahireenopticals/Screen/CompareList.dart';
 import 'package:mahireenopticals/Screen/ProductList.dart';
 import 'package:mahireenopticals/Screen/ReviewList.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -47,6 +43,7 @@ import 'Review_Gallary.dart';
 import 'Review_Preview.dart';
 import 'Search.dart';
 import 'Seller_Details.dart';
+import 'imagePopUp.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product? model;
@@ -348,24 +345,29 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                   _curSlider = index;
                   _progressAnimcontroller.reset(); //reset the animation first
                   _setProgressAnim(deviceWidth!, index + 1);
-                  // context.read<ProductDetailProvider>().setCurSlider(index);
                 },
                 itemBuilder: (BuildContext context, int index) {
                   return Stack(
                     children: [
-                      FadeInImage(
-                        image: CachedNetworkImageProvider(sliderList[index]!),
-                        placeholder: AssetImage(
-                          "assets/images/placeholder.png",
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) => ImagePopUp(
+                                    index: index,
+                                    attachmentUrls: sliderList ?? [],
+                                  ));
+                        },
+                        child: FadeInImage(
+                          image: CachedNetworkImageProvider(sliderList[index]!),
+                          placeholder: AssetImage(
+                            "assets/images/placeholder.png",
+                          ),
+                          height: height,
+                          width: double.maxFinite,
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              erroWidget(height),
                         ),
-                        height: height,
-                        width: double.maxFinite,
-                        // fit: extendImg ? BoxFit.fill : BoxFit.fitWidth,
-
-                        imageErrorBuilder: (context, error, stackTrace) =>
-                            erroWidget(height),
-
-                        //  fit: extendImg ? BoxFit.fill : BoxFit.contain,
                       ),
                       // index == 1 ? playIcon() : Container()
                     ],
