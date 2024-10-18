@@ -1,16 +1,25 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 import 'package:mahireenopticals/Helper/Color.dart';
+import 'package:mahireenopticals/Helper/Session.dart';
+import 'package:mahireenopticals/Helper/String.dart';
 import 'package:selector_wheel/selector_wheel/models/selector_wheel_value.dart';
 import 'package:selector_wheel/selector_wheel/selector_wheel.dart';
 
 class EyePrescriptionForm extends StatefulWidget {
+  final List<String> productlist;
+
+  const EyePrescriptionForm({super.key, required this.productlist});
   @override
   _EyePrescriptionFormState createState() => _EyePrescriptionFormState();
 }
 
 class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
+  // Right side controllers
   final TextEditingController rightSphDistanceController =
       TextEditingController();
   final TextEditingController rightCylDistanceController =
@@ -22,6 +31,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
   final TextEditingController rightAxisNearController = TextEditingController();
   final TextEditingController rightAddController = TextEditingController();
 
+  // Left side controllers
   final TextEditingController leftSphDistanceController =
       TextEditingController();
   final TextEditingController leftCylDistanceController =
@@ -67,11 +77,11 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
               padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
-                  // Icon(
-                  //   Icons.remove_red_eye,
-                  //   size: 35,
-                  //   color: Colors.black,
-                  // ),
+                  Icon(
+                    Icons.remove_red_eye,
+                    size: 35,
+                    color: Colors.black,
+                  ),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.all(5),
@@ -79,7 +89,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                           color: colors.white10,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.black)),
-                      child: Text("  EYE PRESCRIPTION",
+                      child: Text("EYE PRESCRIPTION",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 22)),
                     ),
@@ -93,13 +103,62 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
             _buildEyeSection(title: 'Left Eye', isLeft: true),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                paypalPayment(buildContext: context);
+                // Handle save or submission of data
+
+                // Add more print statements for other fields as needed
+              },
               child: Text('Save'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> paypalPayment({required BuildContext buildContext}) async {
+    try {
+      String productId = '';
+
+      for (var i = 0; i < widget.productlist.length; i++) {
+        productId =
+            i == 0 ? widget.productlist[i] : ',' + widget.productlist[i];
+      }
+      var parameter = {
+        USER_ID: CUR_USERID,
+        "right_d_sph": rightSphDistanceController.text,
+        "left_d_sph": leftSphDistanceController.text,
+        "right_d_cyl": rightCylDistanceController.text,
+        "left_d_cyl": leftCylDistanceController.text,
+        "right_d_axis": rightAxisDistanceController.text,
+        "left_d_axis": leftAxisDistanceController.text,
+        "right_n_sph": rightSphNearController.text,
+        "left_n_sph": leftSphNearController.text,
+        "right_add_sph": rightAddController.text,
+        "left_add_sph": leftAddController.text,
+        "product_id": productId
+      };
+      Response response = await post(
+              Uri.parse(
+                  "https://mahireenopticals.in/app/v1/api/add_eye_prescription"),
+              body: parameter,
+              headers: headers)
+          .timeout(Duration(seconds: 30));
+
+      var getdata = json.decode(response.body);
+      bool error = getdata["error"];
+      String? msg = getdata["message"];
+      if (!error) {
+        Navigator.pop(buildContext, true);
+      } else {
+        setSnackbar(msg!, buildContext);
+        Navigator.pop(buildContext, false);
+      }
+    } on TimeoutException catch (_) {
+      setSnackbar(getTranslated(buildContext, 'somethingMSg')!, buildContext);
+      Navigator.pop(buildContext, false);
+    }
   }
 
   Widget _buildEyeSection({required String title, required bool isLeft}) {
@@ -202,7 +261,17 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                           // }else{
 
                           // }
+
                           DController.text = p0.toString();
+
+                          if (label == 'SPH') {
+                            if ((DController.text == 'Plano' ||
+                                    DController.text == '') &&
+                                (NController.text == 'Plano' ||
+                                    NController.text == '')) {
+                              AddController.text = 'Plano';
+                            }
+                          }
                         },
                       );
                     },
@@ -227,6 +296,15 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                         currentValue: DController.text,
                         onValueSelected: (p0) {
                           NController.text = p0.toString();
+
+                          if (label == 'SPH') {
+                            if ((DController.text == 'Plano' ||
+                                    DController.text == '') &&
+                                (NController.text == 'Plano' ||
+                                    NController.text == '')) {
+                              AddController.text = 'Plano';
+                            }
+                          }
                         },
                       );
                     },
@@ -311,9 +389,9 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
     List list1 = isNear ? ['plano', '+'] : ['plano', '+', '-'];
     List list2 = [0.00, 0.25, 0.50, 0.75];
 
-    String value1 = '';
-    String value2 = '';
-    String value3 = '';
+    String value1 = 'Plano';
+    String value2 = '0';
+    String value3 = '0.00';
 
     showDialog(
       context: context,
