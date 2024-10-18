@@ -48,6 +48,7 @@ dependencies:
   firebase_auth: ^4.17.8
   sms_autofill: ^2.3.1
   intl: ^0.18.1
+  selector_wheel: ^1.1.2
   country_code_picker: ^3.0.0
   google_maps_flutter: ^2.5.3
   geolocator: ^9.0.1

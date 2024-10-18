@@ -8,7 +8,8 @@ final Uri getUserDetailsApi = Uri.parse(baseUrl + 'get_user_details');
 final Uri updateUserApi = Uri.parse(baseUrl + 'update_user');
 final Uri getSectionApi = Uri.parse(baseUrl + 'get_sections');
 final Uri getSettingApi = Uri.parse(baseUrl + 'get_settings');
-final Uri getSubcatApi = Uri.parse(baseUrl + 'get_subcategories_by_category_id');
+final Uri getSubcatApi =
+    Uri.parse(baseUrl + 'get_subcategories_by_category_id');
 final Uri getProductApi = Uri.parse(baseUrl + 'get_products');
 final Uri manageCartApi = Uri.parse(baseUrl + 'manage_cart');
 final Uri getUserLoginApi = Uri.parse(baseUrl + 'login');
@@ -57,6 +58,7 @@ final Uri getMsgApi = Uri.parse(baseUrl + 'get_messages');
 final Uri setBankProofApi = Uri.parse(baseUrl + 'send_bank_transfer_proof');
 final Uri checkDeliverableApi = Uri.parse(baseUrl + "is_product_delivarable");
 final Uri getDeleteAccountApi = Uri.parse(baseUrl + 'delete_user');
+final Uri getEyeprescriptionApi = Uri.parse(baseUrl + 'add_eye_prescription');
 final Uri checkCartDelApi =
     Uri.parse(baseUrl + 'check_cart_products_delivarable');
 
