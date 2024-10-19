@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
-import 'package:mahireenopticals/Helper/Color.dart';
 import 'package:mahireenopticals/Helper/Session.dart';
 import 'package:mahireenopticals/Helper/String.dart';
 import 'package:selector_wheel/selector_wheel/models/selector_wheel_value.dart';
@@ -43,6 +44,8 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
   final TextEditingController leftAxisNearController = TextEditingController();
   final TextEditingController leftAddController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   void dispose() {
     // Dispose all controllers to prevent memory leaks
@@ -67,51 +70,68 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.remove_red_eye,
-                    size: 35,
-                    color: Colors.black,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  // padding: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      // Icon(
+                      //   Icons.remove_red_eye,
+                      //   size: 35,
+                      //   color: Colors.black,
+                      // ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.black)),
+                          child: Text("EYE PRESCRIPTION",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 22)),
+                        ),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: colors.white10,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.black)),
-                      child: Text("EYE PRESCRIPTION",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 22)),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                SizedBox(height: 20),
+                _buildEyeSection(title: 'Right Eye', isLeft: false),
+                SizedBox(height: 20),
+                _buildEyeSection(title: 'Left Eye', isLeft: true),
+                SizedBox(height: 20),
+                isLoading == true
+                    ? CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: () {
+                          if (rightSphDistanceController.text != '' &&
+                              leftSphDistanceController.text != '' &&
+                              rightCylDistanceController.text != '' &&
+                              leftCylDistanceController.text != '' &&
+                              rightAxisDistanceController.text != '' &&
+                              leftAxisDistanceController.text != '' &&
+                              rightSphNearController.text != '' &&
+                              leftSphNearController.text != '' &&
+                              rightAddController.text != '' &&
+                              leftAddController.text != '') {
+                            paypalPayment(buildContext: context);
+                          } else {
+                            setSnackbar("Please fill all the field", context);
+                          }
+                        },
+                        child: Text('Save'),
+                      ),
+              ],
             ),
-            SizedBox(height: 20),
-            _buildEyeSection(title: 'Right Eye', isLeft: false),
-            SizedBox(height: 20),
-            _buildEyeSection(title: 'Left Eye', isLeft: true),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                paypalPayment(buildContext: context);
-                // Handle save or submission of data
-
-                // Add more print statements for other fields as needed
-              },
-              child: Text('Save'),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -119,6 +139,9 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
 
   Future<void> paypalPayment({required BuildContext buildContext}) async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       String productId = '';
 
       for (var i = 0; i < widget.productlist.length; i++) {
@@ -155,8 +178,15 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         setSnackbar(msg!, buildContext);
         Navigator.pop(buildContext, false);
       }
+
+      setState(() {
+        isLoading = false;
+      });
     } on TimeoutException catch (_) {
       setSnackbar(getTranslated(buildContext, 'somethingMSg')!, buildContext);
+      setState(() {
+        isLoading = false;
+      });
       Navigator.pop(buildContext, false);
     }
   }
@@ -164,7 +194,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
   Widget _buildEyeSection({required String title, required bool isLeft}) {
     return Container(
       decoration: BoxDecoration(
-          color: colors.white10,
+          color: Colors.white,
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10)),
       child: Padding(
@@ -265,11 +295,40 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                           DController.text = p0.toString();
 
                           if (label == 'SPH') {
-                            if ((DController.text == 'Plano' ||
+                            if (DController.text != '' &&
+                                NController.text == '') {
+                              AddController.text = DController.text;
+                            } else if (DController.text == '' &&
+                                NController.text != '') {
+                              AddController.text = NController.text;
+                            } else if ((DController.text == 'Plano' ||
                                     DController.text == '') &&
                                 (NController.text == 'Plano' ||
                                     NController.text == '')) {
                               AddController.text = 'Plano';
+                            } else if (DController.text == '' &&
+                                NController.text == '') {
+                              AddController.text = '';
+                            } else {
+                              double a =
+                                  double.tryParse(DController.text) ?? 0.0;
+                              double b =
+                                  double.tryParse(NController.text) ?? 0.0;
+                              double total = a + b;
+                              AddController.text = total.toString();
+
+                              if ((DController.text.contains("+") &&
+                                      NController.text.contains("-")) ||
+                                  (DController.text.contains("-") &&
+                                      NController.text.contains("+"))) {
+                                AddController.text = '-' + AddController.text;
+                              } else if (DController.text.contains("+") &&
+                                  NController.text.contains("+")) {
+                                AddController.text = '+' + AddController.text;
+                              } else if (DController.text.contains("-") &&
+                                  NController.text.contains("-")) {
+                                AddController.text = '-' + AddController.text;
+                              }
                             }
                           }
                         },
@@ -298,11 +357,40 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                           NController.text = p0.toString();
 
                           if (label == 'SPH') {
-                            if ((DController.text == 'Plano' ||
+                            if (DController.text != '' &&
+                                NController.text == '') {
+                              AddController.text = DController.text;
+                            } else if (DController.text == '' &&
+                                NController.text != '') {
+                              AddController.text = NController.text;
+                            } else if ((DController.text == 'Plano' ||
                                     DController.text == '') &&
                                 (NController.text == 'Plano' ||
                                     NController.text == '')) {
                               AddController.text = 'Plano';
+                            } else if (DController.text == '' &&
+                                NController.text == '') {
+                              AddController.text = '';
+                            } else {
+                              double a =
+                                  double.tryParse(DController.text) ?? 0.0;
+                              double b =
+                                  double.tryParse(NController.text) ?? 0.0;
+                              double total = a + b;
+                              AddController.text = total.toString();
+
+                              if ((DController.text.contains("+") &&
+                                      NController.text.contains("-")) ||
+                                  (DController.text.contains("-") &&
+                                      NController.text.contains("+"))) {
+                                AddController.text = '-' + AddController.text;
+                              } else if (DController.text.contains("+") &&
+                                  NController.text.contains("+")) {
+                                AddController.text = '+' + AddController.text;
+                              } else if (DController.text.contains("-") &&
+                                  NController.text.contains("-")) {
+                                AddController.text = '-' + AddController.text;
+                              }
                             }
                           }
                         },
@@ -476,8 +564,9 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
             ),
             TextButton(
               onPressed: () {
-                onValueSelected(
-                    value1 == "Plano" ? "Plano" : value1 + value2 + value3);
+                onValueSelected(value1 == "Plano"
+                    ? "Plano"
+                    : value1 + value2 + '.' + value3.split('.')[1]);
                 Navigator.pop(context);
               },
               child: Text('OK'),
