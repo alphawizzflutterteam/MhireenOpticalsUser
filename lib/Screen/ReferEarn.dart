@@ -80,22 +80,25 @@ class _ReferEarnState extends State<ReferEarn> {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.lightWhite,
-                          borderRadius:
-                              new BorderRadius.all(const Radius.circular(4.0))),
-                      child: Text(getTranslated(context, 'TAP_TO_COPY')!,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.button!.copyWith(
-                                color: Theme.of(context).colorScheme.fontColor,
-                              ),),),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.lightWhite,
+                        borderRadius:
+                            new BorderRadius.all(const Radius.circular(4.0))),
+                    child: Text(
+                      getTranslated(context, 'TAP_TO_COPY')!,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            color: Theme.of(context).colorScheme.fontColor,
+                          ),
+                    ),
+                  ),
                   onPressed: () {
-                    Clipboard.setData(new ClipboardData(text: REFER_CODE ??""));
-                    // setSnackbar('Refercode Copied to clipboard');
-                    Fluttertoast.showToast(msg: 'Refercode Copied to clipboard',
-                        backgroundColor: colors.primary
-                    );
+                    Clipboard.setData(
+                        new ClipboardData(text: REFER_CODE ?? ""));
+                    Fluttertoast.showToast(
+                        msg: 'Refercode Copied to clipboard',
+                        backgroundColor: colors.primary);
                   },
                 ),
                 SimBtn(
@@ -116,14 +119,16 @@ class _ReferEarnState extends State<ReferEarn> {
   }
 
   setSnackbar(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-      content: new Text(
-        msg,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Theme.of(context).colorScheme.black),
+    ScaffoldMessenger.of(context).showSnackBar(
+      new SnackBar(
+        content: new Text(
+          msg,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Theme.of(context).colorScheme.black),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.white,
+        elevation: 1.0,
       ),
-      backgroundColor: Theme.of(context).colorScheme.white,
-      elevation: 1.0,
-    ),);
+    );
   }
 }

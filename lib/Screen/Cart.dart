@@ -5574,10 +5574,12 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
     if (_isNetworkAvail) {
       try {
         var parameter = {USER_ID: CUR_USERID, SAVE_LATER: save};
+        print("Anjali cart params____${parameter}");
         print(parameter.toString());
         Response response =
             await post(getCartApi, body: parameter, headers: headers)
                 .timeout(Duration(seconds: timeOut));
+        print("anjali cart api_________${response}");
         log(response.body.toString());
         log(response.body.toString());
 
@@ -5885,6 +5887,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           QTY: qty,
           'seller_id': cartList[index].productList?[0].seller_id ?? ''
         };
+        print("Anjali manage____${parameter}");
         Response response =
             await post(manageCartApi, body: parameter, headers: headers)
                 .timeout(Duration(seconds: timeOut));
@@ -5992,6 +5995,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           QTY: qty,
           'seller_id': cartList[index].productList?[0].seller_id ?? ''
         };
+        print("ghfjfjy__${parameter}");
 
         Response response =
             await post(manageCartApi, body: parameter, headers: headers)

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -143,6 +142,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         isLoading = true;
       });
       String productId = '';
+      String varientId = '';
 
       for (var i = 0; i < widget.productlist.length; i++) {
         productId =
@@ -160,15 +160,16 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         "left_n_sph": leftSphNearController.text,
         "right_add_sph": rightAddController.text,
         "left_add_sph": leftAddController.text,
-        "product_id": productId
+        "product_id": productId,
+        "product_variant_id": varientId
       };
+      print("anjali eye____${parameter}");
       Response response = await post(
               Uri.parse(
                   "https://mahireenopticals.in/app/v1/api/add_eye_prescription"),
               body: parameter,
               headers: headers)
           .timeout(Duration(seconds: 30));
-
       var getdata = json.decode(response.body);
       bool error = getdata["error"];
       String? msg = getdata["message"];
