@@ -1,5 +1,4 @@
 import 'package:mahireenopticals/Helper/Constant.dart';
-import 'package:mahireenopticals/Helper/Constant.dart';
 
 final Uri getSellerApi = Uri.parse(baseUrl + 'get_sellers');
 final Uri getSliderApi = Uri.parse(baseUrl + 'get_slider_images');

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,8 +13,10 @@ import 'package:selector_wheel/selector_wheel/selector_wheel.dart';
 
 class EyePrescriptionForm extends StatefulWidget {
   final List<String> productlist;
+  final String variantID;
 
-  const EyePrescriptionForm({super.key, required this.productlist});
+  const EyePrescriptionForm(
+      {super.key, required this.productlist, required this.variantID});
   @override
   _EyePrescriptionFormState createState() => _EyePrescriptionFormState();
 }
@@ -47,7 +50,6 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
 
   @override
   void dispose() {
-    // Dispose all controllers to prevent memory leaks
     rightSphDistanceController.dispose();
     rightCylDistanceController.dispose();
     rightAxisDistanceController.dispose();
@@ -142,7 +144,6 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         isLoading = true;
       });
       String productId = '';
-      String varientId = '';
 
       for (var i = 0; i < widget.productlist.length; i++) {
         productId =
@@ -161,9 +162,9 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         "right_add_sph": rightAddController.text,
         "left_add_sph": leftAddController.text,
         "product_id": productId,
-        "product_variant_id": varientId
+        "product_variant_id": widget.variantID
       };
-      print("anjali eye____${parameter}");
+      print("Anjali eye_______${parameter}");
       Response response = await post(
               Uri.parse(
                   "https://mahireenopticals.in/app/v1/api/add_eye_prescription"),
@@ -179,7 +180,6 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
         setSnackbar(msg!, buildContext);
         Navigator.pop(buildContext, false);
       }
-
       setState(() {
         isLoading = false;
       });
@@ -285,16 +285,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                         context: context,
                         currentValue: DController.text,
                         onValueSelected: (p0) {
-                          // if (label == 'SPH') {
-
-                          // }else if(label == 'CYL'){
-
-                          // }else{
-
-                          // }
-
                           DController.text = p0.toString();
-
                           if (label == 'SPH') {
                             if (DController.text != '' &&
                                 NController.text == '') {

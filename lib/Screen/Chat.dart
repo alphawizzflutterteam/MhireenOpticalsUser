@@ -5,15 +5,12 @@ import 'dart:isolate';
 import 'dart:ui';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:mahireenopticals/Provider/SettingProvider.dart';
-// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:http/http.dart' as http;
 import 'package:mahireenopticals/Helper/Session.dart';
 import 'package:mahireenopticals/Helper/String.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:open_filex/open_filex.dart';
-// import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -59,8 +56,7 @@ class _ChatState extends State<Chat> {
     super.dispose();
   }
 
-  static void downloadCallback(
-      String id, int status, int progress) {
+  static void downloadCallback(String id, int status, int progress) {
     final SendPort send =
         IsolateNameServer.lookupPortByName('downloader_send_port')!;
     send.send([id, status, progress]);

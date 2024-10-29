@@ -5574,12 +5574,10 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
     if (_isNetworkAvail) {
       try {
         var parameter = {USER_ID: CUR_USERID, SAVE_LATER: save};
-        print("Anjali cart params____${parameter}");
         print(parameter.toString());
         Response response =
             await post(getCartApi, body: parameter, headers: headers)
                 .timeout(Duration(seconds: timeOut));
-        print("anjali cart api_________${response}");
         log(response.body.toString());
         log(response.body.toString());
 
@@ -5887,7 +5885,6 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           QTY: qty,
           'seller_id': cartList[index].productList?[0].seller_id ?? ''
         };
-        print("Anjali manage____${parameter}");
         Response response =
             await post(manageCartApi, body: parameter, headers: headers)
                 .timeout(Duration(seconds: timeOut));
@@ -5995,7 +5992,6 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
           QTY: qty,
           'seller_id': cartList[index].productList?[0].seller_id ?? ''
         };
-        print("ghfjfjy__${parameter}");
 
         Response response =
             await post(manageCartApi, body: parameter, headers: headers)
@@ -6636,7 +6632,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                               size: 0.9,
                               title: getTranslated(context, 'PROCEED_CHECKOUT'),
                               onBtnSelected: () async {
-                                List<String> list = getProductIDFromEye();
+                                List list = getProductIDFromEye();
 
                                 if (list.length != 0) {
                                   bool result = await showModalBottomSheet(
@@ -6644,11 +6640,11 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
                                       return EyePrescriptionForm(
-                                        productlist: list,
+                                        productlist: list[0],
+                                        variantID: list[1],
                                       );
                                     },
                                   );
-
                                   if (result == true) {
                                     _getCart("");
                                     checkout(cartList);
@@ -6657,6 +6653,25 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                   _getCart("");
                                   checkout(cartList);
                                 }
+
+                                // if(isOnOff == true){
+                                //   if (oriPrice > 0) {
+                                //     FocusScope.of(context).unfocus();
+                                //     if (isAvailable) {
+                                //       checkout(cartList);
+                                //     } else {
+                                //       setSnackbar(
+                                //           getTranslated(
+                                //               context, 'CART_OUT_OF_STOCK_MSG')!,
+                                //           _scaffoldKey);
+                                //     }
+                                //     if (mounted) setState(() {});
+                                //   } else
+                                //     setSnackbar(getTranslated(context, 'ADD_ITEM')!,
+                                //         _scaffoldKey);
+                                // } else {
+                                //   showToast("Currently Store is Off");
+                                // }
                               }),
                         ]),
                   ),
@@ -6666,13 +6681,16 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
 
   getProductIDFromEye() {
     List<String> productIds = [];
+    String vairentId = '';
     List<SectionModel> cartListValue = context.read<CartProvider>().cartList;
     for (var i = 0; i < cartListValue.length; i++) {
       if (cartListValue[i].productList![0].eyeprescription == '1') {
         productIds.add(cartListValue[i].productList![0].id ?? '');
       }
+      vairentId = cartListValue[i].varientId ?? '';
     }
-    return productIds;
+
+    return [productIds, vairentId];
   }
 
   cartEmpty() {

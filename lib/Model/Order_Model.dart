@@ -159,8 +159,7 @@ class OrderItem {
       courier_agency,
       tracking_id,
       tracking_url;
-  EyePrescriptionData? eyePrescriptionData;
-
+  EyePrescriptionModel? eyePrescriptionData;
   List<String>? listStatus = [];
   List<String>? listDate = [];
 
@@ -239,7 +238,9 @@ class OrderItem {
       tracking_url: json[TRACKING_URL] ?? "",
       deliveryBoyName: json['delivery_boy_name'] ?? "",
       deliveryBoyNumber: json['delivery_boy_mobile'] ?? "",
-      eyePrescriptionData: json['delivery_boy_mobile'],
+      eyePrescriptionData: json['eye_prescription_data'] == null
+          ? null
+          : EyePrescriptionModel.fromJson(json['eye_prescription_data']),
     );
   }
 }
@@ -257,10 +258,7 @@ class Attachment {
   }
 }
 
-class EyePrescriptionData {
-  String? id;
-  String? userId;
-  String? productId;
+class EyePrescriptionModel {
   String? rightDSph;
   String? leftDSph;
   String? rightDCyl;
@@ -272,52 +270,46 @@ class EyePrescriptionData {
   String? rightAddSph;
   String? leftAddSph;
 
-  EyePrescriptionData(
-      {this.id,
-      this.userId,
-      this.productId,
-      this.rightDSph,
-      this.leftDSph,
-      this.rightDCyl,
-      this.leftDCyl,
-      this.rightDAxis,
-      this.leftDAxis,
-      this.rightNSph,
-      this.leftNSph,
-      this.rightAddSph,
-      this.leftAddSph});
+  EyePrescriptionModel({
+    this.rightDSph,
+    this.leftDSph,
+    this.rightDCyl,
+    this.leftDCyl,
+    this.rightDAxis,
+    this.leftDAxis,
+    this.rightNSph,
+    this.leftNSph,
+    this.rightAddSph,
+    this.leftAddSph,
+  });
 
-  EyePrescriptionData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    productId = json['product_id'];
-    rightDSph = json['right_d_sph'];
-    leftDSph = json['left_d_sph'];
-    rightDCyl = json['right_d_cyl'];
-    leftDCyl = json['left_d_cyl'];
-    rightDAxis = json['right_d_axis'];
-    leftDAxis = json['left_d_axis'];
-    rightNSph = json['right_n_sph'];
-    leftNSph = json['left_n_sph'];
-    rightAddSph = json['right_add_sph'];
-    leftAddSph = json['left_add_sph'];
+  factory EyePrescriptionModel.fromJson(Map<String, dynamic> json) {
+    return EyePrescriptionModel(
+      rightDSph: json['right_d_sph'],
+      leftDSph: json['left_d_sph'],
+      rightDCyl: json['right_d_cyl'],
+      leftDCyl: json['left_d_cyl'],
+      rightDAxis: json['right_d_axis'],
+      leftDAxis: json['left_d_axis'],
+      rightNSph: json['right_n_sph'],
+      leftNSph: json['left_n_sph'],
+      rightAddSph: json["right_add_sph"],
+      leftAddSph: json['left_add_sph'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['product_id'] = this.productId;
-    data['right_d_sph'] = this.rightDSph;
-    data['left_d_sph'] = this.leftDSph;
-    data['right_d_cyl'] = this.rightDCyl;
-    data['left_d_cyl'] = this.leftDCyl;
-    data['right_d_axis'] = this.rightDAxis;
-    data['left_d_axis'] = this.leftDAxis;
-    data['right_n_sph'] = this.rightNSph;
-    data['left_n_sph'] = this.leftNSph;
-    data['right_add_sph'] = this.rightAddSph;
-    data['left_add_sph'] = this.leftAddSph;
-    return data;
+    return {
+      'right_d_sph': rightDSph,
+      'left_d_sph': leftDSph,
+      'right_d_cyl': rightDCyl,
+      'left_d_cyl': leftDCyl,
+      'right_d_axis': rightDAxis,
+      'left_d_axis': leftDAxis,
+      'right_n_sph': rightNSph,
+      'left_n_sph': leftNSph,
+      'right_add_sph': rightAddSph,
+      'left_add_sph': leftAddSph,
+    };
   }
 }
