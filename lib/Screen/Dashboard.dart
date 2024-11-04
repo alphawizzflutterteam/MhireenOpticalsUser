@@ -26,7 +26,7 @@ import 'Search.dart';
 
 class Dashboard extends StatefulWidget {
   final int? selBottomIndex;
-  const Dashboard({Key? key,this.selBottomIndex}) : super(key: key);
+  const Dashboard({Key? key, this.selBottomIndex}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -39,9 +39,8 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   void initState() {
-
-    SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
@@ -53,11 +52,10 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    if(widget.selBottomIndex !=null){
+    if (widget.selBottomIndex != null) {
       _selBottom = widget.selBottomIndex ?? 0;
       _tabController.animateTo(widget.selBottomIndex ?? 3);
     }
-
 
     final pushNotificationService = PushNotificationService(
         context: context, tabController: _tabController);
@@ -91,7 +89,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   void initDynamicLinks() async {
-   /* FirebaseDynamicLinks.instance.onLink(
+    /* FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
 
@@ -193,8 +191,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
                 actions: <Widget>[
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: colors.primary
-                    ),
+                        backgroundColor: colors.primary),
                     child: Text("YES"),
                     onPressed: () {
                       SystemNavigator.pop();
@@ -202,8 +199,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: colors.primary
-                    ),
+                        backgroundColor: colors.primary),
                     child: Text("NO"),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -211,8 +207,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
                   )
                 ],
               );
-            }
-        );
+            });
         // if (_tabController.index != 0) {
         //   _tabController.animateTo(0);
         //   return false;
@@ -229,7 +224,6 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
               HomePage(),
               AllCategory(),
               Sale(),
-
               Cart(
                 fromBottom: true,
               ),
@@ -249,8 +243,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
       title = getTranslated(context, 'CATEGORY');
     else if (_selBottom == 2)
       // title = getTranslated(context, 'OFFER');
-       title = getTranslated(context, 'EXPLORE');
-
+      title = getTranslated(context, 'EXPLORE');
     else if (_selBottom == 3)
       title = getTranslated(context, 'MYBAG');
     else if (_selBottom == 4) title = getTranslated(context, 'PROFILE');
@@ -261,7 +254,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
           ? Image.asset(
               'assets/images/titleicon.png',
               //height: 40,
-                width: 200,
+              width: 200,
               height: 50,
               // width: 45,
             )
@@ -270,7 +263,6 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
               style: TextStyle(
                   color: colors.primary, fontWeight: FontWeight.normal),
             ),
-
 
       leading: _selBottom == 0
           ? InkWell(
@@ -415,7 +407,8 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
                         color: colors.primary,
                       ),
                 // text: _selBottom == 2 ? getTranslated(context, 'SALE') : null,
-                text: _selBottom == 2 ? getTranslated(context, 'EXPLORE') : null,
+                text:
+                    _selBottom == 2 ? getTranslated(context, 'EXPLORE') : null,
               ),
               Tab(
                 icon: Selector<UserProvider, String>(
@@ -485,7 +478,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
               insets: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 70.0),
             ),
             labelColor: colors.primary,
-            labelStyle: TextStyle(fontSize: 8 , fontWeight: FontWeight.w600),
+            labelStyle: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
           ),
         ));
   }

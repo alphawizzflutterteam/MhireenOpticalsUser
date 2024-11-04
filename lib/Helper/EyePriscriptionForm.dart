@@ -8,15 +8,21 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:mahireenopticals/Helper/Session.dart';
 import 'package:mahireenopticals/Helper/String.dart';
+import 'package:mahireenopticals/Model/Order_Model.dart';
+import 'package:mahireenopticals/Model/Section_Model.dart';
 import 'package:selector_wheel/selector_wheel/models/selector_wheel_value.dart';
 import 'package:selector_wheel/selector_wheel/selector_wheel.dart';
 
 class EyePrescriptionForm extends StatefulWidget {
   final List<String> productlist;
   final String variantID;
+  Product? product;
 
-  const EyePrescriptionForm(
-      {super.key, required this.productlist, required this.variantID});
+  EyePrescriptionForm(
+      {super.key,
+      required this.productlist,
+      required this.variantID,
+      this.product});
   @override
   _EyePrescriptionFormState createState() => _EyePrescriptionFormState();
 }
@@ -47,6 +53,36 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
   final TextEditingController leftAddController = TextEditingController();
 
   bool isLoading = false;
+
+  @override
+  void initState() {
+    if (widget.product != null && widget.product!.eyePrescriptionData != null) {
+      leftSphDistanceController.text =
+          widget.product!.eyePrescriptionData!.leftDSph ?? "";
+      leftCylDistanceController.text =
+          widget.product!.eyePrescriptionData!.leftDCyl ?? "";
+      leftAxisDistanceController.text =
+          widget.product!.eyePrescriptionData!.leftDAxis ?? "";
+      leftAddController.text =
+          widget.product!.eyePrescriptionData!.leftAddSph ?? "";
+      leftSphNearController.text =
+          widget.product!.eyePrescriptionData!.leftNSph ?? "";
+
+      /////////////////////////////////////////////////////////
+      rightSphDistanceController.text =
+          widget.product!.eyePrescriptionData!.rightDSph ?? "";
+      rightCylDistanceController.text =
+          widget.product!.eyePrescriptionData!.rightDCyl ?? "";
+      rightAxisDistanceController.text =
+          widget.product!.eyePrescriptionData!.rightDAxis ?? "";
+      rightAddController.text =
+          widget.product!.eyePrescriptionData!.rightAddSph ?? "";
+      rightSphNearController.text =
+          widget.product!.eyePrescriptionData!.rightNSph ?? "";
+    }
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -145,9 +181,27 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
       });
       String productId = '';
 
+      EyePrescriptionModel eyeDetails = EyePrescriptionModel(
+        leftDSph: leftSphDistanceController.text,
+        leftDCyl: leftCylDistanceController.text,
+        leftDAxis: leftAxisDistanceController.text,
+        leftAddSph: leftAddController.text,
+        leftNSph: leftSphNearController.text,
+        rightDSph: rightSphDistanceController.text,
+        rightDCyl: rightCylDistanceController.text,
+        rightDAxis: rightAxisDistanceController.text,
+        rightAddSph: rightAddController.text,
+        rightNSph: rightSphNearController.text,
+      );
+
+      if (widget.product != null) {
+        widget.product!.eyePrescriptionData = eyeDetails;
+      }
+
       for (var i = 0; i < widget.productlist.length; i++) {
-        productId =
-            i == 0 ? widget.productlist[i] : ',' + widget.productlist[i];
+        productId = i == 0
+            ? widget.productlist[i]
+            : productId + ',' + widget.productlist[i];
       }
       var parameter = {
         USER_ID: CUR_USERID,
@@ -276,6 +330,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: TextFormField(
+              keyboardType: label == "AXIS" ? TextInputType.number : null,
               onTap: label == "AXIS"
                   ? null
                   : () {
@@ -327,8 +382,10 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                       );
                     },
               readOnly: label == "AXIS" ? false : true,
+              maxLength: label == "AXIS" ? 3 : null,
               controller: DController,
               decoration: InputDecoration(
+                counter: Container(),
                 border: UnderlineInputBorder(),
               ),
               textAlign: TextAlign.center,

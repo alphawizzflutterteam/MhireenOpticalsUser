@@ -4150,7 +4150,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mahireenopticals/Helper/Constant.dart';
 import 'package:mahireenopticals/Helper/EyePriscriptionForm.dart';
-import 'package:mahireenopticals/Helper/Public%20Api/api.dart';
 import 'package:mahireenopticals/Helper/Session.dart';
 import 'package:mahireenopticals/Helper/widgets.dart';
 import 'package:mahireenopticals/Provider/CartProvider.dart';
@@ -4158,9 +4157,7 @@ import 'package:mahireenopticals/Provider/SettingProvider.dart';
 import 'package:mahireenopticals/Provider/UserProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:paytm/paytm.dart';
 import 'package:provider/provider.dart';
@@ -4169,7 +4166,6 @@ import '../Helper/AppBtn.dart';
 import '../Helper/Color.dart';
 import '../Helper/SimBtn.dart';
 import '../Helper/String.dart';
-import '../Helper/Stripe_Service.dart';
 import '../Model/Model.dart';
 import '../Model/Section_Model.dart';
 import '../Model/User.dart';
@@ -4493,6 +4489,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             clipBehavior: Clip.none,
             children: [
               Card(
+                color: Colors.white,
                 elevation: 0.1,
                 child: Row(
                   children: <Widget>[
@@ -4845,6 +4842,43 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                   ],
                 ),
               ),
+              Positioned.directional(
+                  textDirection: Directionality.of(context),
+                  end: 50,
+                  bottom: -15,
+                  child: Card(
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 20,
+                          ),
+                        ),
+                        onTap: () async {
+                          bool result = await showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return EyePrescriptionForm(
+                                product: cartList[index].productList![0],
+                                productlist: [
+                                  cartList[index].productList![0].id ?? ""
+                                ],
+                                variantID: cartList[index].varientId,
+                              );
+                            },
+                          );
+
+                          // context.read<CartProvider>().setCartlist(cartList);
+
+                          print(result);
+                        }),
+                  )),
               Positioned.directional(
                   textDirection: Directionality.of(context),
                   end: 0,
@@ -6632,27 +6666,36 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                               size: 0.9,
                               title: getTranslated(context, 'PROCEED_CHECKOUT'),
                               onBtnSelected: () async {
-                                List list = getProductIDFromEye();
+                                bool isDetailUpdate =
+                                    checkIfEyePreUpdtedOrNot();
 
-                                if (list.length != 0) {
-                                  bool result = await showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return EyePrescriptionForm(
-                                        productlist: list[0],
-                                        variantID: list[1],
-                                      );
-                                    },
-                                  );
-                                  if (result == true) {
-                                    _getCart("");
-                                    checkout(cartList);
-                                  }
-                                } else {
+                                if (isDetailUpdate) {
                                   _getCart("");
                                   checkout(cartList);
+                                } else {
+                                  showToast("Please add eye prescription");
                                 }
+                                // List list = getProductIDFromEye();
+
+                                // if (list.length != 0) {
+                                //   bool result = await showModalBottomSheet(
+                                //     context: context,
+                                //     isScrollControlled: true,
+                                //     builder: (BuildContext context) {
+                                //       return EyePrescriptionForm(
+                                //         productlist: list[0],
+                                //         variantID: list[1],
+                                //       );
+                                //     },
+                                //   );
+                                //   if (result == true) {
+                                //     _getCart("");
+                                //     checkout(cartList);
+                                //   }
+                                // } else {
+                                //   _getCart("");
+                                //   checkout(cartList);
+                                // }
 
                                 // if(isOnOff == true){
                                 //   if (oriPrice > 0) {
@@ -6691,6 +6734,17 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
     }
 
     return [productIds, vairentId];
+  }
+
+  bool checkIfEyePreUpdtedOrNot() {
+    List<SectionModel> cartListValue = context.read<CartProvider>().cartList;
+    for (var i = 0; i < cartListValue.length; i++) {
+      if (cartListValue[i].productList![0].eyeprescription == '1' &&
+          cartListValue[i].productList![0].eyePrescriptionData == null) {
+        return false;
+      }
+    }
+    return true;
   }
 
   cartEmpty() {

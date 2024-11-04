@@ -1,4 +1,5 @@
 import 'package:mahireenopticals/Helper/String.dart';
+import 'package:mahireenopticals/Model/Order_Model.dart';
 import 'package:mahireenopticals/Model/User.dart';
 
 class SectionModel {
@@ -145,6 +146,7 @@ class Product {
       open_close_status,
       address,
       coverImage;
+  EyePrescriptionModel? eyePrescriptionData;
 
   // String historyList;
 
@@ -208,6 +210,7 @@ class Product {
       this.estimated_time,
       this.food_person,
       this.open_close_status,
+      this.eyePrescriptionData,
       this.address});
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -299,6 +302,9 @@ class Product {
       food_person: json["food_person"],
       address: json["address"],
       open_close_status: json["open_close_status"],
+      eyePrescriptionData: json['eye_prescription_data'] == null
+          ? null
+          : EyePrescriptionModel.fromJson(json['eye_prescription_data']),
 
       // totalImg: tImg,
       // totalReviewImg: json[REV_IMG][TOTALIMGREVIEW],
