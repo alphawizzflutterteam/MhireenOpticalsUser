@@ -348,11 +348,11 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                             } else if (DController.text == '' &&
                                 NController.text != '') {
                               AddController.text = NController.text;
-                            } else if ((DController.text == 'Plano' ||
+                            } else if ((DController.text == 'Plano 0.0' ||
                                     DController.text == '') &&
-                                (NController.text == 'Plano' ||
+                                (NController.text == 'Plano 0.0' ||
                                     NController.text == '')) {
-                              AddController.text = 'Plano';
+                              AddController.text = 'Plano 0.0';
                             } else if (DController.text == '' &&
                                 NController.text == '') {
                               AddController.text = '';
@@ -368,7 +368,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                                       NController.text.contains("-")) ||
                                   (DController.text.contains("-") &&
                                       NController.text.contains("+"))) {
-                                AddController.text = '-' + AddController.text;
+                                AddController.text = AddController.text;
                               } else if (DController.text.contains("+") &&
                                   NController.text.contains("+")) {
                                 AddController.text = '+' + AddController.text;
@@ -412,11 +412,11 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                             } else if (DController.text == '' &&
                                 NController.text != '') {
                               AddController.text = NController.text;
-                            } else if ((DController.text == 'Plano' ||
+                            } else if ((DController.text == 'Plano 0.0' ||
                                     DController.text == '') &&
-                                (NController.text == 'Plano' ||
+                                (NController.text == 'Plano 0.0' ||
                                     NController.text == '')) {
-                              AddController.text = 'Plano';
+                              AddController.text = 'Plano 0.0';
                             } else if (DController.text == '' &&
                                 NController.text == '') {
                               AddController.text = '';
@@ -432,7 +432,7 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
                                       NController.text.contains("-")) ||
                                   (DController.text.contains("-") &&
                                       NController.text.contains("+"))) {
-                                AddController.text = '-' + AddController.text;
+                                AddController.text = AddController.text;
                               } else if (DController.text.contains("+") &&
                                   NController.text.contains("+")) {
                                 AddController.text = '+' + AddController.text;
@@ -521,12 +521,13 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
       required Function(String) onValueSelected,
       required bool isNear,
       required String label}) {
-    double tempValue =
-        currentValue == "Plano" ? 0.00 : double.tryParse(currentValue) ?? 0.00;
-    List list1 = isNear ? ['plano', '+'] : ['plano', '+', '-'];
+    double tempValue = currentValue == "Plano 0.0"
+        ? 0.00
+        : double.tryParse(currentValue) ?? 0.00;
+    List list1 = isNear ? ['plano 0.0', '+'] : ['plano 0.0', '+', '-'];
     List list2 = [0.00, 0.25, 0.50, 0.75];
 
-    String value1 = 'Plano';
+    String value1 = 'Plano 0.0';
     String value2 = '0';
     String value3 = '0.00';
 
@@ -613,8 +614,8 @@ class _EyePrescriptionFormState extends State<EyePrescriptionForm> {
             ),
             TextButton(
               onPressed: () {
-                onValueSelected(value1 == "Plano"
-                    ? "Plano"
+                onValueSelected(value1 == "Plano 0.0"
+                    ? "Plano 0.0"
                     : value1 + value2 + '.' + value3.split('.')[1]);
                 Navigator.pop(context);
               },
