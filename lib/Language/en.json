@@ -113,7 +113,7 @@
   "DEFAULT_ADD": "Set as a default address",
   "NOADDRESS": "No Address Found..!!",
   "UPDATEADD": "Update Address",
-  "PREFERED_TIME": "Preferred Delivery Date/Time",
+  "PREFERED_TIME": "Order date and time",
   "PAYMENT_METHOD_LBL": "Payment Method",
   "COD_LBL": "Cash On Delivery",
   "PLACE_ORDER": "Place Order",
